@@ -13,7 +13,8 @@ urlpatterns = [
     path("staff/logout/", views.staff_logout, name="staff_logout"),
     path("staff/", views.staff_dashboard, name="staff_dashboard"),
     path("staff/products/new/", views.product_create, name="product_create"),
-    path("staff/products/<int:product_id>/toggle/", views.product_toggle, name="product_toggle"),
+    path("staff/products/<int:product_id>/toggle/",views.product_toggle,name="product_toggle",),
     path("staff/orders/<uuid:reference>/paid/", views.mark_paid, name="mark_paid"),
     path("language/<str:language>/", views.switch_language, name="switch_language"),
+    path("receipt/<uuid:reference>/payment-reference/",views.submit_payment_reference,name="submit_payment_reference", ),
 ]
