@@ -2,14 +2,32 @@ import os
 import sys
 from pathlib import Path
 
+# ==========================================
+# BASE DIRECTORY
+# ==========================================
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+# ==========================================
+# SECURITY SETTINGS
+# ==========================================
+
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-change-this-secret-key")
-DEBUG = os.environ.get("DJANGO_DEBUG", "1") == "1"
+
+DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
+
 ALLOWED_HOSTS = [
     "kaizarelectronic.up.railway.app",
     "localhost",
     "127.0.0.1",
 ]
+
+
+# ==========================================
+# APPLICATIONS
+# ==========================================
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -19,8 +37,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "shop.apps.ShopConfig",
 ]
+
+
+# ==========================================
+# MIDDLEWARE
+# ==========================================
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -29,7 +54,19 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+# ==========================================
+# URL CONFIGURATION
+# ==========================================
+
 ROOT_URLCONF = "kaizar_store.urls"
+
+
+# ==========================================
+# TEMPLATES
+# ==========================================
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -41,41 +78,141 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "shop.context_processors.store_language",
-            ]
+            ],
         },
-    }
+    },
 ]
+
+
+# ==========================================
+# WSGI AND ASGI
+# ==========================================
+
 WSGI_APPLICATION = "kaizar_store.wsgi.application"
+
 ASGI_APPLICATION = "kaizar_store.asgi.application"
+
+
+# ==========================================
+# DATABASE
+# ==========================================
+
 DATABASES = {
-    "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
 }
+
+
+# ==========================================
+# PASSWORD VALIDATION
+# ==========================================
+
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
+
+
+# ==========================================
+# LANGUAGE AND TIME ZONE
+# ==========================================
+
 LANGUAGE_CODE = "sw"
-LANGUAGES = [("sw", "Kiswahili"), ("en", "English")]
+
+LANGUAGES = [
+    ("sw", "Kiswahili"),
+    ("en", "English"),
+]
+
 TIME_ZONE = "Africa/Dar_es_Salaam"
+
 USE_I18N = True
+
 USE_TZ = True
-STATIC_URL = "static/"
+
+
+# ==========================================
+# STATIC FILES (CSS, JAVASCRIPT, IMAGES)
+# ==========================================
+
+STATIC_URL = "/static/"
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = "media/"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+WHITENOISE_MANIFEST_STRICT = False
+
+
+# ==========================================
+# MEDIA FILES
+# ==========================================
+
+MEDIA_URL = "/media/"
+
 MEDIA_ROOT = BASE_DIR / "media"
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# ==========================================
+# AUTHENTICATION
+# ==========================================
+
 LOGIN_URL = "staff_login"
+
 LOGIN_REDIRECT_URL = "staff_dashboard"
+
 LOGOUT_REDIRECT_URL = "home"
+
+
+# ==========================================
+# DEFAULT PRIMARY KEY
+# ==========================================
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# ==========================================
+# SESSION AND COOKIE SECURITY
+# ==========================================
+
 SESSION_COOKIE_HTTPONLY = True
+
 CSRF_COOKIE_HTTPONLY = True
+
 SECURE_CONTENT_TYPE_NOSNIFF = True
+
 X_FRAME_OPTIONS = "DENY"
+
+
+# ==========================================
+# RAILWAY HTTPS CONFIGURATION
+# ==========================================
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 if not DEBUG:
+
     SECURE_SSL_REDIRECT = True
+
     SESSION_COOKIE_SECURE = True
+
     CSRF_COOKIE_SECURE = True
