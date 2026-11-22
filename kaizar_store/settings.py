@@ -18,6 +18,7 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
 
 ALLOWED_HOSTS = [
     "kaizarelectronic.up.railway.app",
+    "kaizarelecronic-production.up.railway.app",
     "localhost",
     "127.0.0.1",
 ]
