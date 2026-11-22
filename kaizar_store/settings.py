@@ -1,5 +1,4 @@
 import os
-import sys
 from pathlib import Path
 
 # ==========================================
@@ -126,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # ==========================================
-# LANGUAGE AND TIME ZONE
+# LANGUAGE SETTINGS
 # ==========================================
 
 LANGUAGE_CODE = "sw"
@@ -144,7 +143,7 @@ USE_TZ = True
 
 
 # ==========================================
-# STATIC FILES (CSS, JAVASCRIPT, IMAGES)
+# STATIC FILES - CSS, JS, IMAGES
 # ==========================================
 
 STATIC_URL = "/static/"
@@ -161,6 +160,8 @@ STORAGES = {
 }
 
 WHITENOISE_MANIFEST_STRICT = False
+
+WHITENOISE_MAX_AGE = 31536000
 
 
 # ==========================================
@@ -204,15 +205,12 @@ X_FRAME_OPTIONS = "DENY"
 
 
 # ==========================================
-# RAILWAY HTTPS CONFIGURATION
+# RAILWAY HTTPS SETTINGS
 # ==========================================
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 if not DEBUG:
-
     SECURE_SSL_REDIRECT = True
-
     SESSION_COOKIE_SECURE = True
-
     CSRF_COOKIE_SECURE = True
